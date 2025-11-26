@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>AI Emotion Detector</title>
+
+    <!-- GOOGLE FONT -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Grenze+Gotisch:wght@100..900&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Libertinus+Keyboard&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Press+Start+2P&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&family=Rubik:ital,wght@0,300..900;1,300..900&family=Science+Gothic:wght@100..900&family=Titillium+Web:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&family=Work+Sans:wght@100..900&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="popup">
+        <div class="popup-element">
+
+            <h3>Welcome to AI Emotion Detector</h3>
+            <p>This project uses a Teachable Machine model to detect emotions from your webcam feed or uploaded images. You can see live predictions, take snapshots, and test different emotions. Explore the interface to understand how AI recognizes visual
+                data in real-time.</p>
+            <button id="close-popup">Start Using App</button>
+        </div>
+    </div>
+    <div class="app-container">
+        <h2>Feelings detected, insights delivered</h2>
+        <button class="letsgo">Let's go</button>
+        <div class="controls">
+            <button id="start-btn" type="button">Start Webcam</button>
+            <button id="toggle-btn" type="button" disabled>Pause</button>
+            <button id="predict-btn" type="button" disabled>Predict Once</button>
+            <button id="snapshot-btn" type="button" disabled>Snapshot</button>
+            <button class="upload-image">upload-img <input id="upload-img" type="file" accept="image/*" /></button>
+
+        </div>
+        <div class="original">
+            <span id="status"></span>
+
+            <div class="main-grid">
+                <div class="panel">
+                    <h3>Live Camera</h3>
+                    <div id="webcam-container"></div>
+                </div>
+
+                <div class="panel">
+                    <h3>Predictions</h3>
+                    <div id="label-container"></div>
+                    <div class="the-resume">
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel" style="margin-top:20px;">
+                <h3>Snapshots / Uploaded Images</h3>
+                <div id="snapshots"></div>
+            </div>
+
+
+        </div>
+        <footer>
+            BY ELMGHARI ABDELHAMID
+        </footer>
+    </div>
+
+    <!-- ORIGINAL JAVASCRIPT UNTOUCHED -->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
+    <script type="text/javascript" src="script.js">
+    </script>
+
+</body>
+
+</html>

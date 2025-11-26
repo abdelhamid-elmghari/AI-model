@@ -1,0 +1,237 @@
+  * {
+      box-sizing: border-box;
+  }
+  
+  body {
+      font-family: "Titillium Web", sans-serif;
+      font-style: normal;
+      margin: 0;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #0f2027, #000000, #38010f);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+  }
+  
+  .app-container {
+      border-radius: 24px;
+      padding: 25px;
+      max-width: 900px;
+      width: 95%;
+  }
+  
+  h2 {
+      margin-top: 150px;
+      text-align: center;
+      margin-bottom: 20px;
+      font-weight: 600;
+      font-size: 26px;
+  }
+  
+  .controls {
+      display: flex;
+      flex-wrap: wrap;
+      transform: translateY(50px);
+      gap: 10px;
+      justify-content: center;
+      opacity: 0;
+      margin-bottom: 20px;
+      transition: 0.5s linear;
+  }
+  
+  button {
+      background: linear-gradient(135deg, #002a35, #0072ff);
+      color: white;
+      padding: 10px 18px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 500;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s;
+  }
+  
+  button:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+      opacity: 0.95;
+  }
+  
+  button:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+  }
+  
+  input[type=file] {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      padding: 8px;
+      color: #fff;
+  }
+  
+  #status {
+      display: block;
+      text-align: center;
+      margin-top: 10px;
+      font-size: 14px;
+      color: #aadfff;
+  }
+  
+  .main-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+  }
+  
+  .panel {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 20px;
+      padding: 15px;
+  }
+  
+  #webcam-container {
+      text-align: center;
+  }
+  
+  #webcam-container canvas {
+      width: 100%;
+      border-radius: 16px;
+  }
+  
+  #label-container>div {
+      position: relative;
+      overflow: hidden;
+      background: rgba(0, 0, 0, 0.4);
+      margin: 6px 0;
+      border-radius: 12px;
+      font-size: 14px;
+      padding: 10px;
+  }
+  
+  h3 {
+      margin-top: 10px;
+      font-weight: 500;
+  }
+  
+  #snapshots {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 10px;
+  }
+  
+  #snapshots img {
+      max-width: 120px;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+      transition: transform 0.2s ease;
+  }
+  
+  #snapshots img:hover {
+      transform: scale(1.05);
+  }
+  
+  footer {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 13px;
+      opacity: 0.7;
+  }
+  
+  @media(max-width: 768px) {
+      .main-grid {
+          grid-template-columns: 1fr;
+      }
+  }
+  
+  .popup {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, #0f2027, #000000, #38010f);
+      z-index: 100;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: 0.4s;
+  }
+  
+  .popup-none {
+      opacity: 0;
+      z-index: -100;
+  }
+  
+  .popup-element {
+      background-color: white;
+      border-radius: 16px;
+      padding: 20px;
+      max-width: 400px;
+  }
+  
+  .popup .popup-element h3,
+  .popup .popup-element p {
+      color: black;
+  }
+  
+  .original {
+      transform: translateY(35px);
+      opacity: 0;
+      transition: 0.5s linear;
+  }
+  
+  .transform-Y {
+      transform: translateY(0);
+      opacity: 1;
+  }
+  
+  .letsgo {
+      display: block;
+      margin: 40px auto;
+      transition: 0.5s linear;
+  }
+  
+  .letsgo:active {
+      background: linear-gradient(135deg, #820148, #ff006a);
+      box-shadow: 10px 10px 40px rgba(168, 0, 137, 0.419), -10px -10px 40px rgba(255, 0, 47, 0.512);
+      transform: scale(1.1);
+  }
+  
+  .disply-none {
+      margin-top: -40px;
+      user-select: none;
+      pointer-events: none;
+      opacity: 0;
+      transform: scale(0);
+      z-index: -99;
+  }
+  
+  .element {
+      inset: 0;
+      position: absolute;
+      background-color: rgb(255, 85, 0);
+      z-index: -1;
+  }
+  
+  .high {
+      border-radius: 30px;
+      background-color: rgb(0, 3, 37);
+      padding: 10px;
+      font-size: 1rem;
+      color: wheat;
+  }
+  
+  .high-class {
+      color: #ff006a;
+  }
+  
+  #upload-img {
+      position: absolute;
+      cursor: pointer;
+      inset: 0;
+      width: auto;
+      opacity: 0;
+  }
+  
+  .upload-image {
+      position: relative;
+  }
