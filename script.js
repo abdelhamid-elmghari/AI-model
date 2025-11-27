@@ -4,25 +4,40 @@
     })
     let letsgo = document.querySelector(".letsgo");
     letsgo.addEventListener("click", () => {
-            letsgo.classList.add("disply-none");
-            let original = document.querySelector(".original");
-            let controls = document.querySelector(".controls");
-            original.classList.add("transform-Y");
-            controls.classList.add("transform-Y");
+        letsgo.classList.add("disply-none");
+        let original = document.querySelector(".original");
+        let controls = document.querySelector(".controls");
+        original.classList.add("transform-Y");
+        controls.classList.add("transform-Y");
 
-        })
-        // ✅ YOUR ORIGINAL JAVASCRIPT REMAINS EXACTLY THE SAME
-        // PASTE YOUR EXISTING JS CODE HERE WITHOUT ANY MODIFICATION
-        // More API functions here:
-        // https://github.com/googlecreativelab/teachablemachine-community/tree/master/libraries/image
+    })
 
-    // the link to your model provided by Teachable Machine export panel
     const URL = "https://teachablemachine.withgoogle.com/models/8AtxEMNrW/";
 
     let model, webcam, labelContainer, maxPredictions;
     let running = false;
     let rafId = null;
 
+    function generatEmojis(emotion) {
+        switch (emotion.toLowerCase()) {
+            case "happy":
+                return "😄 😃 😊 😁";
+            case "sad":
+                return "😢 😞 😭 💔";
+            case "angry":
+                return "😠 😡 🤬";
+            case "surprise":
+                return "😲 😯 😮";
+            case "fear":
+                return "😨 😱 😖";
+            case "neutral":
+                return "😐 😑";
+            case "disgust":
+                return "🤢 🤮 😖";
+            default:
+                return "ERROR";
+        }
+    }
     // Load the image model and setup the webcam
     async function init() {
         const modelURL = URL + "model.json";
@@ -72,8 +87,11 @@
     async function predictOnCanvas(canvasOrImage) {
         if (!model) return;
         let maxClass = ""
+
         const prediction = await model.predict(canvasOrImage);
+        let max = prediction[0].probability.toFixed(2);
         for (let i = 0; i < maxPredictions; i++) {
+
             const classPrediction =
                 prediction[i].className + ": " + prediction[i].probability.toFixed(2);
             // 1. Create the span element
@@ -86,7 +104,7 @@
 
             span.style.width = `${prediction[i].probability * 100}%`; // works now
 
-            if (prediction[i].probability.toFixed(2) > maxClass) {
+            if (prediction[i].probability > max) {
                 maxClass = prediction[i].className
 
 
@@ -94,7 +112,7 @@
 
 
         }
-        document.querySelector(".the-resume").innerHTML = `<h1 class="high"> High confidence detected <span clas="high-class">${maxClass}</span></h1>`
+        document.querySelector(".the-resume").innerHTML = `<h1 class="high"> High confidence detected <span class="high-class">${maxClass} ${generatEmojis(maxClass) }</span></h1>`
 
 
     }
@@ -147,14 +165,66 @@
     function handleUpload(e) {
         const file = e.target.files[0];
         if (!file) return;
+
+        if (!file.type.startsWith("image/")) {
+            alert("Please upload an image file");
+            return;
+        }
+
+        const snapshots = document.querySelector('#snapshots');
+        snapshots.innerHTML = ""; // clear previous
+
+        // Try createObjectURL first (fast, memory-managed)
+        if (window.URL && URL.createObjectURL) {
+            const imageURL = URL.createObjectURL(file);
+            const img = document.createElement('img');
+            img.style.maxWidth = '320px';
+            img.style.display = 'block';
+
+            // Revoke only after load or error
+            img.onload = async() => {
+                snapshots.appendChild(img);
+                try {
+                    await predictOnCanvas(img);
+                    console.log(img)
+                } catch (err) { console.error(err); }
+                URL.revokeObjectURL(imageURL);
+            };
+
+            img.onerror = () => {
+                // in case of error, revoke and fallback to FileReader
+                URL.revokeObjectURL(imageURL);
+                readWithFileReader(file, snapshots);
+            };
+
+            img.src = imageURL;
+            return;
+        }
+
+        // Fallback: FileReader (works everywhere)
+        readWithFileReader(file, snapshots);
+    }
+
+    function readWithFileReader(file, snapshots) {
+        const reader = new FileReader();
         const img = document.createElement('img');
         img.style.maxWidth = '320px';
-        img.onload = async() => {
-            document.getElementById('snapshots').appendChild(img);
-            await predictOnCanvas(img);
+        img.style.display = 'block';
+
+        reader.onload = async(ev) => {
+            img.src = ev.target.result;
+            snapshots.appendChild(img);
+            try { await predictOnCanvas(img); } catch (err) { console.error(err); }
         };
-        img.src = URL.createObjectURL(file);
+
+        reader.onerror = (err) => {
+            console.error('FileReader error', err);
+            alert('Unable to load image');
+        };
+
+        reader.readAsDataURL(file);
     }
+
 
     // Wire up UI
     document.getElementById('start-btn').addEventListener('click', async(ev) => {
@@ -174,3 +244,5 @@
     document.getElementById('predict-btn').addEventListener('click', predictOnce);
     document.getElementById('snapshot-btn').addEventListener('click', takeSnapshot);
     document.getElementById('upload-img').addEventListener('change', handleUpload);
+
+    //BY elmghari abdelhamid
